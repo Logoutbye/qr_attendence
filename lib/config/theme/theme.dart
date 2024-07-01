@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
-class Themecolor {
-  Themecolor._();
+class AppColors {
+  AppColors._();
 
   static const Color primary = Color(0xFFa279d7);
-  static const Color icon = Color(0xFF008000);
+  static const Color flushbar = Color(0xFFb392dd);
+
+  // static const Color icon = Color(0xFF008000);
   static const Color white = Color(0xFFffffff);
-  static const Color whitehalf = Color(0xFFf2f5fe);
   static const Color black = Color(0xFF333333);
+
+  static const Color whitehalf = Color(0xFFf2f5fe);
   static const Color grey = Colors.grey;
   static const Color red = Color(0xFFFF0000);
   static const Color orange = Colors.orange;
-  static const Color flushbar = Color(0xFFb392dd);
 }
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: Themecolor.whitehalf,
+    scaffoldBackgroundColor: AppColors.whitehalf,
     brightness: Brightness.light,
     appBarTheme: AppBarThemee.lightAppBarTheme,
     checkboxTheme: CustomCheckboxTheme.lightTheme,
@@ -30,7 +32,7 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
-      scaffoldBackgroundColor: Themecolor.black,
+      scaffoldBackgroundColor: AppColors.black,
       brightness: Brightness.dark,
       appBarTheme: AppBarThemee.darkAppBarTheme,
       checkboxTheme: CustomCheckboxTheme.darkTheme,
@@ -48,13 +50,13 @@ class Elevatedbuttontheme {
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      foregroundColor: Themecolor.white,
-      disabledForegroundColor: Themecolor.grey,
-      disabledBackgroundColor: Themecolor.grey,
-      side: const BorderSide(color: Themecolor.grey),
+      foregroundColor: AppColors.white,
+      disabledForegroundColor: AppColors.grey,
+      disabledBackgroundColor: AppColors.grey,
+      side: const BorderSide(color: AppColors.grey),
       textStyle: const TextStyle(
-          fontSize: 16, color: Themecolor.white, fontWeight: FontWeight.w600),
-      backgroundColor: Themecolor.primary,
+          fontSize: 16, color: AppColors.white, fontWeight: FontWeight.w600),
+      backgroundColor: AppColors.primary,
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -67,13 +69,13 @@ class Elevatedbuttontheme {
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      foregroundColor: Themecolor.white,
-      disabledForegroundColor: Themecolor.grey,
-      disabledBackgroundColor: Themecolor.grey,
-      side: const BorderSide(color: Themecolor.grey),
+      foregroundColor: AppColors.white,
+      disabledForegroundColor: AppColors.grey,
+      disabledBackgroundColor: AppColors.grey,
+      side: const BorderSide(color: AppColors.grey),
       textStyle: const TextStyle(
-          fontSize: 16, color: Themecolor.white, fontWeight: FontWeight.w600),
-      backgroundColor: Themecolor.primary,
+          fontSize: 16, color: AppColors.white, fontWeight: FontWeight.w600),
+      backgroundColor: AppColors.primary,
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -90,10 +92,10 @@ class AppBarThemee {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      iconTheme: IconThemeData(color: Themecolor.black, size: 24),
-      actionsIconTheme: IconThemeData(color: Themecolor.black, size: 24),
+      iconTheme: IconThemeData(color: AppColors.black, size: 24),
+      actionsIconTheme: IconThemeData(color: AppColors.black, size: 24),
       titleTextStyle: TextStyle(
-        color: Themecolor.black,
+        color: AppColors.black,
         fontSize: 18.0,
         fontWeight: FontWeight.w600,
       ));
@@ -103,10 +105,10 @@ class AppBarThemee {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      iconTheme: IconThemeData(color: Themecolor.white, size: 24),
-      actionsIconTheme: IconThemeData(color: Themecolor.white, size: 24),
+      iconTheme: IconThemeData(color: AppColors.white, size: 24),
+      actionsIconTheme: IconThemeData(color: AppColors.white, size: 24),
       titleTextStyle: TextStyle(
-        color: Themecolor.white,
+        color: AppColors.white,
         fontSize: 18.0,
         fontWeight: FontWeight.w600,
       ));
@@ -116,15 +118,15 @@ class BottomSheetThemee {
   BottomSheetThemee._();
   static BottomSheetThemeData lightbottomSheetThemeData = BottomSheetThemeData(
     showDragHandle: true,
-    backgroundColor: Themecolor.white,
-    modalBackgroundColor: Themecolor.white,
+    backgroundColor: AppColors.white,
+    modalBackgroundColor: AppColors.white,
     constraints: BoxConstraints(minWidth: double.infinity),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
   );
   static BottomSheetThemeData darktbottomSheetThemeData = BottomSheetThemeData(
     showDragHandle: true,
-    backgroundColor: Themecolor.black,
-    modalBackgroundColor: Themecolor.black,
+    backgroundColor: AppColors.black,
+    modalBackgroundColor: AppColors.black,
     constraints: BoxConstraints(minWidth: double.infinity),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
   );
@@ -137,16 +139,16 @@ class CustomCheckboxTheme {
       ),
       checkColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Themecolor.white;
+          return AppColors.white;
         } else {
-          return Themecolor.black;
+          return AppColors.black;
         }
       }),
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Themecolor.white;
+          return AppColors.white;
         } else {
-          return Themecolor.black;
+          return AppColors.black;
         }
       }));
   static CheckboxThemeData darkTheme = CheckboxThemeData(
@@ -155,16 +157,16 @@ class CustomCheckboxTheme {
       ),
       checkColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Themecolor.black;
+          return AppColors.black;
         } else {
-          return Themecolor.white;
+          return AppColors.white;
         }
       }),
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Themecolor.black;
+          return AppColors.black;
         } else {
-          return Themecolor.white;
+          return AppColors.white;
         }
       }));
 }
@@ -174,56 +176,54 @@ class Textformfieldtheme {
 
   static InputDecorationTheme lightinputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,
-    suffixIconColor: Themecolor.grey,
-    prefixIconColor: Themecolor.grey,
-    labelStyle:
-        const TextStyle().copyWith(fontSize: 14, color: Themecolor.grey),
-    hintStyle: const TextStyle().copyWith(fontSize: 14, color: Themecolor.grey),
+    suffixIconColor: AppColors.grey,
+    prefixIconColor: AppColors.grey,
+    labelStyle: const TextStyle().copyWith(fontSize: 14, color: AppColors.grey),
+    hintStyle: const TextStyle().copyWith(fontSize: 14, color: AppColors.grey),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle: const TextStyle().copyWith(
-        fontStyle: FontStyle.normal, color: Themecolor.black.withOpacity(0.8)),
+        fontStyle: FontStyle.normal, color: AppColors.black.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.grey)),
+        borderSide: const BorderSide(width: 1, color: AppColors.grey)),
     enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.grey)),
+        borderSide: const BorderSide(width: 1, color: AppColors.grey)),
     focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.black)),
+        borderSide: const BorderSide(width: 1, color: AppColors.black)),
     errorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.red)),
+        borderSide: const BorderSide(width: 1, color: AppColors.red)),
     focusedErrorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.orange)),
+        borderSide: const BorderSide(width: 1, color: AppColors.orange)),
   );
   static InputDecorationTheme darkinputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,
-    suffixIconColor: Themecolor.grey,
-    prefixIconColor: Themecolor.grey,
+    suffixIconColor: AppColors.grey,
+    prefixIconColor: AppColors.grey,
     labelStyle:
-        const TextStyle().copyWith(fontSize: 14, color: Themecolor.white),
-    hintStyle:
-        const TextStyle().copyWith(fontSize: 14, color: Themecolor.white),
+        const TextStyle().copyWith(fontSize: 14, color: AppColors.white),
+    hintStyle: const TextStyle().copyWith(fontSize: 14, color: AppColors.white),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle: const TextStyle().copyWith(
-        fontStyle: FontStyle.normal, color: Themecolor.white.withOpacity(0.8)),
+        fontStyle: FontStyle.normal, color: AppColors.white.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.whitehalf)),
+        borderSide: const BorderSide(width: 1, color: AppColors.whitehalf)),
     enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.white)),
+        borderSide: const BorderSide(width: 1, color: AppColors.white)),
     focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.white)),
+        borderSide: const BorderSide(width: 1, color: AppColors.white)),
     errorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.red)),
+        borderSide: const BorderSide(width: 1, color: AppColors.red)),
     focusedErrorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Themecolor.orange)),
+        borderSide: const BorderSide(width: 1, color: AppColors.orange)),
   );
 }
 
@@ -238,54 +238,54 @@ class Themetext {
     headlineLarge: const TextStyle().copyWith(
       fontSize: 32.0,
       fontWeight: FontWeight.bold,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     headlineMedium: const TextStyle().copyWith(
       fontSize: 24.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     headlineSmall: const TextStyle().copyWith(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     titleLarge: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     titleMedium: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     titleSmall: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     bodyLarge: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     bodyMedium: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.normal,
-      color: Themecolor.black,
+      color: AppColors.black,
     ),
     bodySmall: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.black.withOpacity(0.5),
+      color: AppColors.black.withOpacity(0.5),
     ),
     labelLarge: const TextStyle().copyWith(
-        fontSize: 12.0, fontWeight: FontWeight.normal, color: Themecolor.black),
+        fontSize: 12.0, fontWeight: FontWeight.normal, color: AppColors.black),
     labelMedium: const TextStyle().copyWith(
       fontSize: 12.0,
       fontWeight: FontWeight.normal,
-      color: Themecolor.black.withOpacity(0.5),
+      color: AppColors.black.withOpacity(0.5),
     ),
   );
 
@@ -293,54 +293,54 @@ class Themetext {
     headlineLarge: const TextStyle().copyWith(
       fontSize: 32.0,
       fontWeight: FontWeight.bold,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     headlineMedium: const TextStyle().copyWith(
       fontSize: 24.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     headlineSmall: const TextStyle().copyWith(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     titleLarge: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     titleMedium: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     titleSmall: const TextStyle().copyWith(
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     bodyLarge: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     bodyMedium: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.normal,
-      color: Themecolor.white,
+      color: AppColors.white,
     ),
     bodySmall: const TextStyle().copyWith(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
-      color: Themecolor.white.withOpacity(0.5),
+      color: AppColors.white.withOpacity(0.5),
     ),
     labelLarge: const TextStyle().copyWith(
-        fontSize: 12.0, fontWeight: FontWeight.normal, color: Themecolor.white),
+        fontSize: 12.0, fontWeight: FontWeight.normal, color: AppColors.white),
     labelMedium: const TextStyle().copyWith(
       fontSize: 12.0,
       fontWeight: FontWeight.normal,
-      color: Themecolor.white.withOpacity(0.5),
+      color: AppColors.white.withOpacity(0.5),
     ),
   );
 }
@@ -352,19 +352,19 @@ class DropdownTheme {
     hintText: 'Select Role',
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0),
-      borderSide: BorderSide(color: Themecolor.grey),
+      borderSide: BorderSide(color: AppColors.grey),
     ),
     filled: true,
-    fillColor: Themecolor.white,
+    fillColor: AppColors.white,
   );
 
   static InputDecoration darkDecoration = InputDecoration(
     hintText: 'Select Role',
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0),
-      borderSide: BorderSide(color: Themecolor.grey),
+      borderSide: BorderSide(color: AppColors.grey),
     ),
     filled: true,
-    fillColor: Themecolor.black,
+    fillColor: AppColors.black,
   );
 }

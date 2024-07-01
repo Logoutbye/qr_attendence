@@ -52,10 +52,10 @@ class Utils {
     return ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-          backgroundColor: Themecolor.flushbar,
+          backgroundColor: AppColors.flushbar,
           content: Text(
             message,
-            style: const TextStyle(color:Themecolor.white),
+            style: const TextStyle(color:AppColors.white),
           )));
   }
 }
