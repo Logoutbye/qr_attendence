@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
+import 'package:qr_attendence/core/components/splash_services.dart';
 import 'package:qr_attendence/provider/theme_provider.dart';
 import 'package:qr_attendence/services/splash_services/splash_services.dart';
 
@@ -12,12 +13,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // SplashServices splashServices = SplashServices();
+  SplashServices splashServices = SplashServices();
 
   @override
   void initState() {
     super.initState();
-    // splashServices.checkAuthentication(context);
+   
+     splashServices.checkAuthentication(context);
      Future.delayed(Duration(seconds: 5)).then((_) {
       Navigator.pushReplacementNamed(context, RoutesName.selectRole); 
     
@@ -47,18 +49,19 @@ class ThemeToggle extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.light),
-            child: Text('Light Theme'),
-          ),
-          ElevatedButton(
-            onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.dark),
-            child: Text('Dark Theme'),
-          ),
-          ElevatedButton(
-            onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.system),
-            child: Text('System Theme'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.light),
+          //   child: Text('Light Theme'),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.dark),
+          //   child: Text('Dark Theme'),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () => themeProvider.setThemeMode(ThemeModeEnum.system),
+          //   child: Text('System Theme'),
+          // ),
+          Center(child: Text('Splash screen'))
         ],
       ),
     );

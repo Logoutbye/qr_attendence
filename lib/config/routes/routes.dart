@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/view/common/select_role.dart';
 import 'package:qr_attendence/view/screens/Host/create_Event.dart';
+import 'package:qr_attendence/view/screens/Host/create_employ.dart';
 import 'package:qr_attendence/view/screens/Host/create_people.dart';
 import 'package:qr_attendence/view/screens/Host/host_dashboard.dart';
 import 'package:qr_attendence/view/screens/Host/list_of_current_event.dart';
+import 'package:qr_attendence/view/screens/Host/previos_event.dart';
 import 'package:qr_attendence/view/screens/Host/signin_host.dart';
 import 'package:qr_attendence/view/screens/Host/signup_host.dart';
+import 'package:qr_attendence/view/screens/employes/employ_checkout.dart';
 import 'package:qr_attendence/view/screens/employes/employes_checkin.dart';
 import 'package:qr_attendence/view/splash_screen.dart';
 
@@ -33,6 +36,12 @@ class Routes {
         return SlideTransitionPage(page: DashBoardHost());
           case RoutesName.listOfCurrentEvent:
         return SlideTransitionPage(page: ListOfCurrentEvent());
+        case RoutesName.listOfPreviousEvent:
+        return SlideTransitionPage(page: PreviousEvent());
+          case RoutesName.createemploy:
+        return SlideTransitionPage(page: CreateEmployeeScreen());
+        //  case RoutesName.checkout:
+        // return SlideTransitionPage(page: CheckInCheckOutScreen());
         
 
       default:

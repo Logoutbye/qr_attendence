@@ -24,28 +24,23 @@ class Utils {
     );
   }
 
-  static void flushBarErrorMessage(String message, BuildContext context) {
-    showFlushbar(
-      context: context,
-      flushbar: Flushbar(
-        forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        padding: const EdgeInsets.all(15),
-        message: message,
-        duration: const Duration(seconds: 3),
-        borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Colors.red,
-        reverseAnimationCurve: Curves.easeInOut,
-        positionOffset: 20,
-        icon: const Icon(
-          Icons.error,
-          size: 28,
-          color: Colors.white,
-        ),
-      )..show(context),
-    );
-  }
+showFlushbar(String message, BuildContext context) {
+  Flushbar(
+    // title: title,
+    // titleColor: AppConstants.kcsecondaryColor,
+    message: message,
+    // messageColor: AppConstants.kcsecondaryColor,
+    duration: Duration(seconds: 2),
+    reverseAnimationCurve: Curves.easeInBack,
+    forwardAnimationCurve: Curves.linear,
+    // backgroundColor: AppConstants.kcgreenbgColor,
+    padding: EdgeInsets.all(12),
+    maxWidth: MediaQuery.of(context).size.width / 1.1,
+    margin: EdgeInsets.all(8),
+    borderRadius: BorderRadius.circular(20),
+    positionOffset: 20,
+  )..show(context);
+}
 
   static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context)

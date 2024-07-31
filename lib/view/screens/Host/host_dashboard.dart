@@ -69,7 +69,7 @@ class _DashBoardHostState extends State<DashBoardHost>
               backgroundColor:
                   Colors.transparent, // Make AppBar background transparent
               elevation: 0, // Remove shadow
-              title: Text(
+              title:const Text(
                 'Dashboard',
                 style: TextStyle(color: Themecolor.white),
               ),
@@ -174,12 +174,7 @@ class _DashBoardHostState extends State<DashBoardHost>
                                       Navigator.pushNamed(context,
                                           RoutesName.listOfCurrentEvent);
                                     } else if (text1 == 'Previous Event') {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => PreviousEventScreen(),
-                                      //   ),
-                                      // );
+                                     Navigator.pushNamed(context, RoutesName.listOfPreviousEvent);
                                     } else if (text1 == 'Create Event') {
                                       Navigator.push(
                                         context,
@@ -289,14 +284,22 @@ class _DashBoardHostState extends State<DashBoardHost>
                   //     style: Theme.of(context).textTheme.bodySmall,
                   //   ),
                   // ),
-                  CompanyAttendies(),
+                CompanyAttendies(),
                 ],
               ),
             ),
+          
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+      
+          onPressed: (){
+            Navigator.pushNamed(context, RoutesName.createemploy);
+          },child: Icon(Icons.add),),
       ),
+      
     );
+    
   }
 }
 

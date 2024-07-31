@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qr_attendence/config/constants/assetspath.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
-import 'package:simple_animations/animation_builder/play_animation_builder.dart';
-import 'package:simple_animations/movie_tween/movie_tween.dart';
+import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
+import 'package:qr_attendence/core/utilis/utils.dart';
+import 'package:qr_attendence/provider/signup_provider.dart';
+
 
 class SignUpHost extends StatefulWidget {
   const SignUpHost({super.key});
@@ -18,261 +20,115 @@ class _SignUpHostState extends State<SignUpHost> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool isEmailCorrect = false;
-  bool isNameCorrect = false;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Themecolor.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: FadeAnimation(
-            delay: 1,
-            child: Column(
-              children: [
-                const SizedBox(height: 80),
-                 Center(child: Image.asset(AssetPaths.signupHost)),
-                const SizedBox(height: 30),
-                // const Text('Sign Up',
-                //     style: TextStyle(
-                //         fontSize: 30,
-                //         fontWeight: FontWeight.bold,
-                //         color: Colors.black)),
-                const SizedBox(height: 24),
-                SocialIconRow(
-                  facebookCallback: () {
-                    debugPrint('Facebook');
-                  },
-                  googleCallback: () {
-                    debugPrint('Google');
-                  },
-                  twitterCallback: () {
-                    debugPrint('Twitter');
-                  },
-                ),
-                const SizedBox(height: 30),
-                AuthField(
-                  controller: _usernameController,
-                  hintText: 'Your Username',
-                  isFieldValidated: isNameCorrect,
-                  keyboardType: TextInputType.name,
-                  onChanged: (value) {
-                    isNameCorrect = validateName(value);
-                    setState(() {});
-                  },
-                  validator: (value) {
-                    if (!validateName(value!)) {
-                      return 'Enter a valid name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                AuthField(
-                  controller: _emailController,
-                  hintText: 'Your Email',
-                  keyboardType: TextInputType.emailAddress,
-                  isFieldValidated: isEmailCorrect,
-                  onChanged: (value) {
-                    setState(() {});
-                    isEmailCorrect = validateEmail(value);
-                  },
-                  validator: (value) {
-                    if (!validateEmail(value!)) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                AuthField(
-                  hintText: 'Your Password',
-                  controller: _passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  isPasswordField: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (value.length < 6) {
-                      return 'Password should be at least 6 characters';
-                    } else if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*d).+$')
-                        .hasMatch(value)) {
-                      return 'Password should contain at least one uppercase letter, one lowercase letter, and one digit';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 30),
-                PrimaryButton(
-                    onTap: () async {
-                      if (_formKey.currentState!.validate()) {}
-                    },
-                    text: 'Sign Up'),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Already a member?',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Themecolor.grey,
-                        )),
-                    CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, RoutesName.signin);
-                      },
-                      text: 'Sign In',
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  bool validateName(String value) {
-    if (value.isEmpty) {
-      return false;
-    } else {
-      final nameRegex = RegExp(r'^[a-zA-Z]+$');
-      return nameRegex.hasMatch(value);
-    }
-  }
-
-  bool validateEmail(String value) {
-    if (value.isEmpty) {
-      return false;
-    } else {
-      final emailRegex = RegExp(
-        r'^[w-]+(.[w-]+)*@([w-]+.)+[a-zA-Z]{2,7}$',
-      );
-      return emailRegex.hasMatch(value);
-    }
-  }
-}
-
-
-
-class SocialIcons extends StatefulWidget {
-  final VoidCallback onTap;
-  final Widget child;
-  final bool isGoogleIcon;
-  const SocialIcons(
-      {Key? key,
-      required this.onTap,
-      required this.child,
-      this.isGoogleIcon = false})
-      : super(key: key);
-
-  @override
-  State<SocialIcons> createState() => _SocialIconsState();
-}
-
-class _SocialIconsState extends State<SocialIcons>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  final Duration _animationDuration = const Duration(milliseconds: 300);
-  final Tween<double> _tween = Tween<double>(begin: 1.0, end: 0.95);
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: _animationDuration,
-    )..addListener(() {
-        setState(() {});
-      });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _controller.forward().then((_) {
-          _controller.reverse();
-        });
-        widget.onTap();
-      },
-      child: ScaleTransition(
-        scale: _tween.animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.easeOut,
-            reverseCurve: Curves.easeIn,
-          ),
+    final height = MediaQuery.of(context).size.height;
+    return Container(
+      decoration: BoxDecoration(gradient: AppConstantsWidgetStyle.kgradientScreen),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Sign Up', style: TextStyle(color: Themecolor.white)),
         ),
-        child: Card(
-          elevation: 0,
-          color: Colors.transparent,
+        body: SingleChildScrollView(
           child: Container(
-            height: 50,
-            width: 50,
-            alignment: Alignment.center,
+            height: height * 0.9,
+            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: widget.isGoogleIcon ? Themecolor.orange : null,
-              border: widget.isGoogleIcon
-                  ? null
-                  : Border.all(color: Themecolor.orange),
-              borderRadius: BorderRadius.circular(10),
+              color: Themecolor.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
             ),
-            child: widget.child,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  AuthField(
+                    controller: _usernameController,
+                    hintText: 'Your Username',
+                    keyboardType: TextInputType.name,
+                    isPasswordField: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your username';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  AuthField(
+                    controller: _emailController,
+                    hintText: 'Your Email',
+                    keyboardType: TextInputType.emailAddress,
+                    isPasswordField: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  AuthField(
+                    controller: _passwordController,
+                    hintText: 'Your Password',
+                    isPasswordField: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  Consumer<SignupProvider>(
+                    builder: (BuildContext context, provider, Widget? child) {
+                      return PrimaryButton(
+                        borderRadius: 10,
+                        onTap: () async {
+                          Utils.dismissKeyboard(context);
+                          if (_formKey.currentState!.validate()) {
+                            final username = _usernameController.text;
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            Map<String, dynamic> data = {
+                              'companyName': username,
+                              'email': email,
+                              'password': password
+                            };
+                            await provider.companySignup(data,context);
+                          }
+                        },
+                        text: 'Sign Up',
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already a member?',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Themecolor.grey,
+                          )),
+                      CustomTextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, RoutesName.signin);
+                        },
+                        text: 'Sign In',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class SocialIconRow extends StatelessWidget {
-  final VoidCallback googleCallback;
-  final VoidCallback facebookCallback;
-  final VoidCallback twitterCallback;
-  const SocialIconRow(
-      {super.key,
-      required this.googleCallback,
-      required this.facebookCallback,
-      required this.twitterCallback});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: SocialIcons(
-                onTap: googleCallback,
-                isGoogleIcon: true,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(AssetPaths.google),
-                    const SizedBox(width: 14),
-                    const Text(
-                      'with Google',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
-                    )
-                  ],
-                ))),
-        SocialIcons(
-          onTap: facebookCallback,
-          child: Image.asset(AssetPaths.facebook),
-        ),
-        SocialIcons(
-          onTap: twitterCallback,
-          child: Image.asset(AssetPaths.twitter),
-        ),
-      ],
     );
   }
 }
@@ -281,24 +137,19 @@ class AuthField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
-  final bool isFieldValidated;
-  final bool isForgetButton;
   final bool isPasswordField;
-  final bool isPhone;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
+
   const AuthField({
     super.key,
     required this.hintText,
     required this.controller,
     this.inputFormatters,
     this.onChanged,
-    this.isFieldValidated = false,
     this.validator,
-    this.isPhone = false,
     this.isPasswordField = false,
-    this.isForgetButton = false,
     this.keyboardType,
   });
 
@@ -308,6 +159,7 @@ class AuthField extends StatefulWidget {
 
 class _AuthFieldState extends State<AuthField> {
   bool isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -318,54 +170,43 @@ class _AuthFieldState extends State<AuthField> {
       inputFormatters: widget.inputFormatters,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
-          hintText: widget.hintText,
-          errorMaxLines: 2,
-          filled: false,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Themecolor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Themecolor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Themecolor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Themecolor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          hintStyle: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w300, color: Colors.grey),
-          suffixIcon: widget.isForgetButton
-              ? CustomTextButton(
-                  onPressed: () {},
-                  text: 'Forgot?',
-                  color: Themecolor.green,
-                )
-              : widget.isPasswordField
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: Icon(
-                        isObscure ? Icons.visibility_off : Icons.visibility,
-                        color:Themecolor.grey,
-                      ),
-                    )
-                  : Icon(widget.isPhone ? Icons.phone_android : Icons.done,
-                      size: 20,
-                      color: widget.isFieldValidated
-                          ? Themecolor.green
-                          : Themecolor.grey)),
+        hintText: widget.hintText,
+        errorMaxLines: 2,
+        filled: false,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Themecolor.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Themecolor.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Themecolor.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Themecolor.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.grey),
+        suffixIcon: widget.isPasswordField
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    isObscure = !isObscure;
+                  });
+                },
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                icon: Icon(
+                  isObscure ? Icons.visibility_off : Icons.visibility,
+                  color: Themecolor.grey,
+                ),
+              )
+            : null,
+      ),
     );
   }
 }
@@ -375,6 +216,7 @@ class CustomTextButton extends StatelessWidget {
   final String text;
   final Color? color;
   final double? fontSize;
+
   const CustomTextButton({
     required this.onPressed,
     required this.text,
@@ -390,7 +232,7 @@ class CustomTextButton extends StatelessWidget {
       style: TextButton.styleFrom(padding: EdgeInsets.zero),
       child: Text(
         text,
-        style: TextStyle(color: color ?? Themecolor.orange, fontSize: 14),
+        style: TextStyle(color: color ?? Themecolor.orange, fontSize: fontSize ?? 14),
       ),
     );
   }
@@ -404,6 +246,7 @@ class PrimaryButton extends StatefulWidget {
   final double? borderRadius;
   final double? fontSize;
   final Color? color;
+
   const PrimaryButton({
     required this.onTap,
     required this.text,
@@ -419,11 +262,11 @@ class PrimaryButton extends StatefulWidget {
   State<PrimaryButton> createState() => _PrimaryButtonState();
 }
 
-class _PrimaryButtonState extends State<PrimaryButton>
-    with SingleTickerProviderStateMixin {
+class _PrimaryButtonState extends State<PrimaryButton> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   final Duration _animationDuration = const Duration(milliseconds: 300);
   final Tween<double> _tween = Tween<double>(begin: 1.0, end: 0.95);
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -466,47 +309,20 @@ class _PrimaryButtonState extends State<PrimaryButton>
           child: Container(
             height: widget.height ?? 55,
             alignment: Alignment.center,
-            width: widget.width ?? double.maxFinite,
+            width: widget.width ?? double.infinity,
             decoration: BoxDecoration(
-              color: widget.color ?? Themecolor.grey,
+              gradient: AppConstantsWidgetStyle.kgradientButton,
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
             ),
             child: Text(
               widget.text,
               style: TextStyle(
-                color: widget.color == null ? Colors.white : Colors.black,
+                color: widget.color ?? Colors.white,
                 fontSize: widget.fontSize ?? 15,
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class FadeAnimation extends StatelessWidget {
-  final double delay;
-  final Widget child;
-
-  const FadeAnimation({super.key, required this.delay, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final tween = MovieTween()
-      ..tween('opacity', Tween(begin: 0.0, end: 1.0),
-          duration: const Duration(milliseconds: 500))
-      ..tween('translateY', Tween(begin: -30.0, end: 0.0),
-          duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
-    return PlayAnimationBuilder(
-      delay: Duration(milliseconds: (500 * delay).round()),
-      duration: tween.duration,
-      tween: tween,
-      child: child,
-      builder: (context, animation, child) => Opacity(
-        opacity: animation.get('opacity'),
-        child: Transform.translate(
-            offset: Offset(0, animation.get('translateY')), child: child),
       ),
     );
   }

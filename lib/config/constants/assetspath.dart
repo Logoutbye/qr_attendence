@@ -10,4 +10,7 @@ class AssetPaths {
   static const String companyRegister = 'assets/images/companyregister.jpg';
   static const String scanner = 'assets/images/qr_code.png';
   static const String loginIs = 'assets/images/loginimg.png';
+  static const String qrlogos = 'assets/images/qr.png';
+    
+
 }
