@@ -77,7 +77,7 @@ class _SelectRoleState extends State<SelectRole> {
                   child: InkWell(
                     onTap: () {
                       Navigator.pushReplacementNamed(
-                          context, RoutesName.employCheckin);
+                          context, RoutesName.loginEmploy);
                     },
                     child: Container(
                       width: width * 0.8,

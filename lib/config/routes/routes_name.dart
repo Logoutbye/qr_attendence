@@ -12,6 +12,9 @@ class RoutesName {
            static const String listOfCurrentEvent ='list_of_current_event';
               static const String listOfPreviousEvent ='previos_event.dart';
               static const String createemploy ='create_employ';
+              static const String totalEmploy ='total_employes.dart';
+              /////////////////////////////employ//////////////////////
+             static const String loginEmploy ='employ_signin.dart';
 
               ///// visiter
                 // static const String checkout  ='employ_checkout.dart';

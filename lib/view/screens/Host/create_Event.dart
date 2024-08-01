@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
-import 'package:qr_attendence/provider/create_event_provider.dart';
+import 'package:qr_attendence/provider/company/create_event_provider.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -64,7 +64,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: height * 0.48,
+                    height: height * 0.55,
                     width: double.infinity,
                     decoration: ShapeDecoration(
                         color: Themecolor.white,
@@ -100,6 +100,31 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           controller: eventProvider.eventVenueController,
                           decoration: InputDecoration(
                             hintText: 'Enter venue',
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFF177DD1), width: 2.0),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter event venue';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                            TextFormField(
+                          controller: eventProvider.eventDescriptionController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter a description',
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color(0xFF177DD1), width: 2.0),
@@ -189,59 +214,35 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       ],
                     ),
                   ),
-                  // TextFormField(
-                  //   decoration: InputDecoration(labelText: 'Add Participant'),
-                  //   onFieldSubmitted: (value) {
-                  //     if (value.isNotEmpty) {
-                  //       eventProvider.addParticipant(value);
-                  //     }
-                  //   },
-                  // ),
-                  // Wrap(
-                  //   children: eventProvider.participants
-                  //       .map((participant) => Chip(
-                  //             label: Text(participant),
-                  //             onDeleted: () => eventProvider.removeParticipant(participant),
-                  //           ))
-                  //       .toList(),
-                  // ),
+                  
                   SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Themecolor.primary, Themecolor.primaryLight],
-                        // colors:[Themecolor.primary,  Themecolor.primaryLight],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                  InkWell(
+                    onTap: (){
+                       eventProvider.isLoading
+                        ? CircularProgressIndicator()
+                        :  eventProvider.saveEvent(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Themecolor.primary, Themecolor.primaryLight],
+                          // colors:[Themecolor.primary,  Themecolor.primaryLight],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      child: Center(
+                          child: Text(
+                        'Create Event',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
                     ),
-                    child: Center(
-                        child: Text(
-                      'Create Event',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     eventProvider.saveEvent();
-                  //     Navigator.pushNamed(
-                  //       context,
-                  //       RoutesName.createPeople,
-                  //     );
-                  //   },
-                  //   style: ElevatedButton.styleFrom(
-                  //     minimumSize: Size(double.infinity, 48), backgroundColor: Colors.transparent,
-                  //     shadowColor: Colors.transparent,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //     ),
-                  //   ),
-                  //   child: Text('Create Event', style: TextStyle(color: Colors.white)),
-                  // ),
+               
                 ],
               ),
             ),

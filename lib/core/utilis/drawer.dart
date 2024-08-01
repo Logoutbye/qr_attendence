@@ -1,112 +1,57 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:get/get_connect/http/src/utils/utils.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:telekom2/provider/logoutby_provider.dart';
-// import 'package:telekom2/provider/session_handling_provider.dart';
-// import 'package:telekom2/screens/new_chat_module/view/widgets/login_widget.dart';
-// import 'package:telekom2/utils/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_attendence/config/routes/routes_name.dart';
+import 'package:qr_attendence/core/components/session_handling.dart';
+import 'package:qr_attendence/core/utilis/utils.dart';
+import 'package:qr_attendence/provider/company/general_provider.dart';
 
-// class TeacherDrawerWidget extends StatefulWidget {
-//   const TeacherDrawerWidget({
-//     super.key,
-//     required this.height,
-//   });
+class CompanyDrawerWidget extends StatefulWidget {
+  const CompanyDrawerWidget({
+    super.key,
+    required this.height,
+  });
 
-//   final double height;
+  final double height;
 
-//   @override
-//   State<TeacherDrawerWidget> createState() => _TeacherDrawerWidgetState();
-// }
+  @override
+  State<CompanyDrawerWidget> createState() => _CompanyDrawerWidgetState();
+}
 
-// class _TeacherDrawerWidgetState extends State<TeacherDrawerWidget> {
-//   bool isLogin = true;
-//   @override
-//   Widget build(
-//     BuildContext context,
-//   ) {
-//     return SafeArea(
-//       child: Drawer(
-//         child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-//           const Divider(),
-//           ListTile(
-//               leading: const Icon(Icons.logout, color: Color(0xFFFF0000)),
-//               title: const Text(
-//                 'Logout',
-//               ),
-//               onTap: () async {
-//            try {
-//                   final sessionHandler = SessionHandlingViewModel();
-//                   final token = await sessionHandler.getToken();
+class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
+  bool isLogin = true;
 
-//                   if (token != null) {
-//                     await LogoutbyProvider().logout();
-//                   }
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Color(0xFFFF0000)),
+              title: const Text(
+                'Logout',
+              ),
+              onTap: () async {
+                final provider = Provider.of<GeneralProvider>(context, listen: false);
+                try {
+                  await provider.logout(context);
 
-//                   // Clear user session data
-//                   await sessionHandler.removeUser();
+                  // Clear user session data
+                  await SessionHandlingViewModel().removeCompanyToken();
 
-//                   // Navigate to the login screen
-//                   Navigator.pushReplacement(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => LoginWidget(onClickedSignUp: toggle),
-//                     ),
-//                   );
-//                 } catch (e) {
-//                   print('Logout error: $e');
-//                   Utils.toastMessage('Logout error: $e');
-
-//                   // Ensure user is logged out and session is cleared
-//                   await SessionHandlingViewModel().removeUser();
-//                   Navigator.pushReplacement(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => LoginWidget(onClickedSignUp: toggle),
-//                     ),
-//                   );
-//                 }
-              
-//               }
-
-//               // onTap:
-
-//               //   () async {
-//               //     try {
-//               //       // Call your logout API
-
-//               //       // Clear any session data or perform other cleanup
-//               //      await LogoutbyProvider().logout();
-//               //       await SessionHandlingViewModel()
-//               //           .removeUser()
-//               //           .then((Value) {
-
-//               //         Navigator.pushReplacement(
-//               //           context,
-//               //           MaterialPageRoute(
-//               //               builder: (context) =>
-//               //                   LoginWidget(onClickedSignUp: toggle)),
-//               //         );
-//               //       });
-
-//               //       // Navigate to the login screen
-//               //     } catch (e) {
-//               //       print('Logout error: $e');
-//               //       // Handle logout error
-//               //     }
-//               //   }
-//               //   // SessionHandling().removeEverything();
-//               // Navigator.pushReplacementNamed(
-//               //           //     context, RoutesName.loginScreen);
-//               //           SessionHandlingViewModel().removeUser();
-//               //          Navigator.pushReplacement(
-//               // context,
-//               // MaterialPageRoute(builder: (context) => LoginWidget(onClickedSignUp:toggle)));
-//               )
-//         ]),
-//       ),
-//     );
-//   }
-
-//   void toggle() => setState(() => isLogin = !isLogin);
-// }
+                  // Navigate to the login screen
+                  Navigator.pushReplacementNamed(context, RoutesName.signin);
+                } catch (e) {
+                  print('Logout error: $e');
+                  Utils.toastMessage('Logout error: $e');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

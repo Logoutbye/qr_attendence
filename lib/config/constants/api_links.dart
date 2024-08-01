@@ -9,4 +9,13 @@ class Applinks {
   static var signupForcompany = '$baseUrl/api/company/create';
   static var signinForcompany = '$baseUrl/api/company/login';
   static var createEmploy = '$baseUrl/api/employee/signUp';
+  static var createEvent = '$baseUrl/api/event/create-event';
+  static var logoutCompany = '$baseUrl/compnay/logout';
+   static var totalEmployee = '$baseUrl/api/employee/';
+   static var allLength = '$baseUrl/api/company/all-length';
+   static var fetchAllEvents= '$baseUrl/api/event/all';
+
+  ///////////////////////////////////Employ hare//////////////////////////////////////
+    static var loginEmploy = '$baseUrl/api/employee/signIn';
+
 }

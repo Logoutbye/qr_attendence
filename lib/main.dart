@@ -4,7 +4,8 @@ import 'package:qr_attendence/config/routes/routes.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/provider/Signin_provider.dart';
-import 'package:qr_attendence/provider/create_event_provider.dart';
+import 'package:qr_attendence/provider/company/create_event_provider.dart';
+import 'package:qr_attendence/provider/company/general_provider.dart';
 import 'package:qr_attendence/provider/create_people_provider.dart';
 import 'package:qr_attendence/provider/date_provider.dart';
 import 'package:qr_attendence/provider/signup_provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<PeopleProvider>(create: (_) => PeopleProvider()),
         ChangeNotifierProvider<SigninProvider>(create: (_) => SigninProvider()),
         ChangeNotifierProvider<SignupProvider>(create: (_) => SignupProvider()),
+         ChangeNotifierProvider<GeneralProvider>(create: (_) => GeneralProvider()),
 
         // ChangeNotifierProvider<dateprovider>(create: (_) => dateprovider()),
       ],

@@ -28,9 +28,9 @@ class SessionHandlingViewModel {
     return token;
   }
 
-  Future<void> removeDriverRegistrationToken() async {
+  Future<void> removeCompanyToken() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove('DriverRegistrationToken');
+    sp.remove('token');
   }
 
   // for signed in rider

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
+import 'package:qr_attendence/core/utilis/drawer.dart';
+import 'package:qr_attendence/data/model/all_length_model.dart';
+import 'package:qr_attendence/provider/company/general_provider.dart';
 import 'package:qr_attendence/view/screens/Host/company_attendies.dart';
 import 'package:qr_attendence/view/screens/Host/create_Event.dart';
 
@@ -12,23 +15,14 @@ class DashBoardHost extends StatefulWidget {
   State<DashBoardHost> createState() => _DashBoardHostState();
 }
 
-class _DashBoardHostState extends State<DashBoardHost>
-    with SingleTickerProviderStateMixin {
+class _DashBoardHostState extends State<DashBoardHost> {
+  Future<AllLength>? allLengthforCompany;
   late AnimationController _controller;
-  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: false);
-
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    );
+    allLengthforCompany = GeneralProvider().fetchAllLength(context);
   }
 
   @override
@@ -37,20 +31,24 @@ class _DashBoardHostState extends State<DashBoardHost>
     super.dispose();
   }
 
+  final List<ModelClass> titles = [
+    ModelClass(title: 'Current Event', numbers: 3),
+    ModelClass(title: 'Previous Event', numbers: 9),
+    ModelClass(title: 'Create Event'),
+    ModelClass(title: "Total Employ", numbers: 8)
+  ];
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final List<ModelClass> titles = [
-      ModelClass(title: 'Current Event', numbers: 3),
-      ModelClass(title: 'Previous Event', numbers: 9),
-      ModelClass(title: 'Create Event'),
-    ];
-
     return DefaultTabController(
       length: 2, // Number of tabs
       child: Scaffold(
+        drawer: CompanyDrawerWidget(
+          height: height * 0.9,
+        ),
         backgroundColor: Themecolor.whitehalf,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -69,7 +67,7 @@ class _DashBoardHostState extends State<DashBoardHost>
               backgroundColor:
                   Colors.transparent, // Make AppBar background transparent
               elevation: 0, // Remove shadow
-              title:const Text(
+              title: const Text(
                 'Dashboard',
                 style: TextStyle(color: Themecolor.white),
               ),
@@ -99,8 +97,8 @@ class _DashBoardHostState extends State<DashBoardHost>
                   Tab(text: 'Company'),
                 ],
                 // Customize the tab indicator color
-                labelColor: Themecolor
-                    .white, // Customize the selected tab label color
+                labelColor:
+                    Themecolor.white, // Customize the selected tab label color
                 unselectedLabelColor: Themecolor
                     .black, // Customize the unselected tab label color
                 indicator: BoxDecoration(
@@ -110,7 +108,7 @@ class _DashBoardHostState extends State<DashBoardHost>
                     ),
                 // labelStyle: TextStyle(color: Themecolor.orange),
                 // unselectedLabelStyle: TextStyle(color: Themecolor.orange),
-                
+
                 indicatorSize: TabBarIndicatorSize.tab,
                 // Set the size of the indicator
               ),
@@ -119,187 +117,215 @@ class _DashBoardHostState extends State<DashBoardHost>
               child: TabBarView(
                 children: [
                   // First Tab: Events
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        // AnimatedBuilder(
-                        //   animation: _animation,
-                        //   child: Container(
-                        //     height: height * 0.3,
-                        //     width: double.infinity,
-                        //     decoration: BoxDecoration(
-                        //       color: Themecolor.white,
-                        //     ),
-                        //     child: Image.asset('assets/images/eventslogo.png'),
-                        //   ),
-                        //   builder: (context, child) {
-                        //     return Transform.scale(
-                        //       scale: _animation.value,
-                        //       child: child,
-                        //     );
-                        //   },
-                        // ),
-                        Container(
-                          margin: EdgeInsets.all(15),
-                          padding: EdgeInsets.only(top: 15),
-                          height: height * 0.5,
-                          width: double.infinity,
-                          decoration: ShapeDecoration(
-                              color: Themecolor.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              shadows: AppConstantsWidgetStyle.kShadows),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GridView.builder(
-                              physics:
-                                  NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, // Number of columns
-                                crossAxisSpacing:
-                                    8.0, // Spacing between columns
-                                mainAxisSpacing: 8.0, // Spacing between rows
-                              ),
-                              itemCount:
-                                  titles.length, // Number of items in the grid
-                              itemBuilder: (context, index) {
-                                final lists = titles[index];
-                                final text1 = lists.title ?? '';
-                                final count = lists.numbers ?? 0;
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (text1 == 'Current Event') {
-                                      Navigator.pushNamed(context,
-                                          RoutesName.listOfCurrentEvent);
-                                    } else if (text1 == 'Previous Event') {
-                                     Navigator.pushNamed(context, RoutesName.listOfPreviousEvent);
-                                    } else if (text1 == 'Create Event') {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateEventScreen(),
+                  FutureBuilder<AllLength>(
+                    future: allLengthforCompany,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<AllLength> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Error: ${snapshot.error}'),
+                        );
+                      }
+
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: Text('No data available'),
+                        );
+                      }
+                      final allLength = snapshot.data!;
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(15),
+                              padding: EdgeInsets.only(top: 15),
+                              height: height * 0.5,
+                              width: double.infinity,
+                              decoration: ShapeDecoration(
+                                  color: Themecolor.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                  shadows: AppConstantsWidgetStyle.kShadows),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GridView.builder(
+                                  physics:
+                                      NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, // Number of columns
+                                    crossAxisSpacing:
+                                        8.0, // Spacing between columns
+                                    mainAxisSpacing:
+                                        8.0, // Spacing between rows
+                                  ),
+                                  itemCount: titles
+                                      .length, // Number of items in the grid
+                                  itemBuilder: (context, index) {
+                                    final lists = titles[index];
+                                    final text1 = lists.title ?? '';
+                                    final count = lists.numbers ?? 0;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (text1 == 'Current Event') {
+                                          Navigator.pushNamed(context,
+                                              RoutesName.listOfCurrentEvent);
+                                        } else if (text1 == 'Previous Event') {
+                                          Navigator.pushNamed(context,
+                                              RoutesName.listOfPreviousEvent);
+                                        } else if (text1 == 'Create Event') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateEventScreen(),
+                                            ),
+                                          );
+                                        } else if (text1 == 'Total Employ') {
+                                          Navigator.pushNamed(
+                                              context, RoutesName.totalEmploy);
+                                        }
+                                      },
+                                      child: Card(
+                                        color: Themecolor.white,
+                                        elevation: 8,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                         ),
-                                      );
-                                    }
-                                  },
-                                  child: Card(
-                                    
-                                    color: Themecolor.white,
-                                    elevation: 8,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Stack(
-                                      alignment: AlignmentDirectional.topStart,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 15, left: 6),
-                                          child:text1 != 'Create Event'? Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: height * 0.04,
-                                            width: width * 0.28,
-                                            decoration: ShapeDecoration(
-                                                color: Themecolor.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
-                                                shadows: AppConstantsWidgetStyle
-                                                    .kShadows),
-                                            child: Center(
-                                              child: Text(
-                                                text1 != 'Create Event'
-                                                    ? 'Total Events: $count'
-                                                    : '',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                        child: Stack(
+                                          alignment:
+                                              AlignmentDirectional.topStart,
+                                          children: [
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15, left: 6),
+                                                child: text1 != 'Create Event'
+                                                    ? Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 10),
+                                                        height: height * 0.04,
+                                                        width: width * 0.28,
+                                                        decoration: ShapeDecoration(
+                                                            color: Themecolor
+                                                                .white,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                            shadows:
+                                                                AppConstantsWidgetStyle
+                                                                    .kShadows),
+                                                        child: Center(
+                                                          child: Text(
+                                                            // text1 != 'Create Event'
+                                                            //     ? 'Total Events: $count'
+                                                            //     : '',
+                                                            (text1 != 'Create Event' &&
+                                                                    text1 !=
+                                                                        'Total Employ')
+                                                                ? 'Total Event:$count'
+                                                                : (text1 != 'Create Event' &&
+                                                                        text1 !=
+                                                                            'Current Event' &&
+                                                                        text1 !=
+                                                                            'Previous Event')
+                                                                    ? 'Total Employe:${allLength?.data?.employee ?? ''}'
+                                                                    : '',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Image.asset(
+                                                        'assets/images/iconscreate.png',
+                                                        width: width * 0.3,
+                                                        height: height * 0.07,
+                                                      )),
+                                            Positioned(
+                                              top: 14,
+                                              right: 8,
+                                              child: Icon(
+                                                text1 == 'Create Event'
+                                                    ? Icons.add
+                                                    : Icons.event,
+                                                size: 35,
+                                                color: Themecolor.primary,
                                               ),
                                             ),
-                                          ):Image.asset('assets/images/iconscreate.png',width: width*0.3,height: height*0.07,)
-                                        ),
-                                        Positioned(
-                                          top: 14,
-                                          right: 8,
-                                          child: Icon(
-                                            text1 == 'Create Event'
-                                                ? Icons.add
-                                                : Icons.event,
-                                            size: 35,
-                                            color: Themecolor.primary,
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top:
-                                                    40.0), // Adjust this value as needed
-                                            child: Container(
-                                              margin: EdgeInsets.all(8),
-                                              height: height * 0.05,
-                                              width: width * 0.4,
-                                              decoration: ShapeDecoration(
-                                                  color: Themecolor.white,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  shadows:
-                                                      AppConstantsWidgetStyle
-                                                          .kShadows),
-                                              child: Center(
-                                                child: Text(
-                                                  text1,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge,
+                                            Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top:
+                                                        40.0), // Adjust this value as needed
+                                                child: Container(
+                                                  margin: EdgeInsets.all(8),
+                                                  height: height * 0.05,
+                                                  width: width * 0.4,
+                                                  decoration: ShapeDecoration(
+                                                      color: Themecolor.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
+                                                      shadows:
+                                                          AppConstantsWidgetStyle
+                                                              .kShadows),
+                                                  child: Center(
+                                                    child: Text(
+                                                      text1,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
 
-                  // Second Tab: Company
-                  // Center(
-                  //   child: Text(
-                  //     'Company Info Placeholder',
-                  //     style: Theme.of(context).textTheme.bodySmall,
-                  //   ),
-                  // ),
-                CompanyAttendies(),
+                  CompanyAttendies(),
                 ],
               ),
             ),
-          
           ],
         ),
         floatingActionButton: FloatingActionButton(
-      
-          onPressed: (){
+          onPressed: () {
             Navigator.pushNamed(context, RoutesName.createemploy);
-          },child: Icon(Icons.add),),
+          },
+          child: Icon(Icons.add),
+        ),
       ),
-      
     );
-    
   }
 }
 

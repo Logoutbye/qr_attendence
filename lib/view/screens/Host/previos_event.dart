@@ -11,6 +11,7 @@ class PreviousEvent extends StatefulWidget {
 }
 
 class _PreviousEventState extends State<PreviousEvent> {
+  Future<>
   List<Modelclass> listOfCurrentEvent = [
     Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),
     Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),

@@ -4,39 +4,38 @@ import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
 import 'package:qr_attendence/core/utilis/utils.dart';
 import 'package:qr_attendence/provider/company/create_employ_provider.dart';
+import 'package:qr_attendence/provider/employ_provider/login_provider.dart';
 
-class CreateEmployeeScreen extends StatefulWidget {
-  const CreateEmployeeScreen({super.key});
+class LoginEmployeeScreen extends StatefulWidget {
+  const LoginEmployeeScreen({super.key});
 
   @override
-  State<CreateEmployeeScreen> createState() => _CreateEmployeeScreenState();
+  State<LoginEmployeeScreen> createState() => _LoginEmployeeScreenState();
 }
 
-class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
+class _LoginEmployeeScreenState extends State<LoginEmployeeScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _createEmployee()async {
     Utils.dismissKeyboard(context);
   
-      final username = _usernameController.text;
+      
       final email = _emailController.text;
       final password = _passwordController.text;
       Map<String, dynamic> data = {
-        "username": username,
+      
         'email': email,
         'password': password
       };
-      if(username.isEmpty){
-        Utils.snackBar('please enter a username ', context);
-      }else if(email.isEmpty){
+      if(email.isEmpty){
         Utils.snackBar('please enter a email', context);
       }else if(password.isEmpty){
         Utils.snackBar('please enter a password', context);
       }else{
-        await CreateEmployProvider().CreateEmploy(data, context);
+        await LoginEmployProvider().loginEmploy(data, context);
       }
       // Perform the create employee action here
       // You can access the input values using _usernameController.text, _emailController.text, and _passwordController.text
@@ -47,7 +46,7 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+   
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -92,22 +91,7 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                 children: [
                   Image.asset(AssetPaths.qrlogos,height:height*0.4,width: width*0.8,),
                   SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-                  TextFormField(
-                    
-                    
-                    controller: _usernameController,
-                    decoration: const InputDecoration(
-                      fillColor: Themecolor.white,
-                      filled: true,
-                      hintText: 'Username'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a username';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -151,7 +135,7 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         height: 48,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient:const LinearGradient(
                             colors: [
                               Themecolor.primary,
                               Themecolor.primaryLight
@@ -162,9 +146,9 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Center(
+                        child:const Center(
                             child: Text(
-                          'Create Employ',
+                          'Login in',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )),
