@@ -232,7 +232,13 @@ class _DashBoardHostState extends State<DashBoardHost> {
                                                             (text1 != 'Create Event' &&
                                                                     text1 !=
                                                                         'Total Employ')
-                                                                ? 'Total Event:$count'
+                                                                ? text1 ==
+                                                                        'Current Event'
+                                                                    ? 'Total Event: ${allLength.data?.currentEvent ?? ''}'
+                                                                    : text1 ==
+                                                                            'Previous Event'
+                                                                        ? 'Total Event: ${allLength.data?.previousEvent ?? ''}'
+                                                                        : ''
                                                                 : (text1 != 'Create Event' &&
                                                                         text1 !=
                                                                             'Current Event' &&

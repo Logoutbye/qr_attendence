@@ -63,6 +63,7 @@ class _LoginEmployeeScreenState extends State<LoginEmployeeScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -72,90 +73,92 @@ class _LoginEmployeeScreenState extends State<LoginEmployeeScreen> {
                 color: Themecolor.white,
               )),
           title: const Text(
-            'Create Employee',
+            'Login Employee',
             style: TextStyle(color: Themecolor.white),
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.only(top: 20),
-          decoration: BoxDecoration(
-              // color: Themecolor.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(AssetPaths.qrlogos,height:height*0.4,width: width*0.8,),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-                const SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      fillColor: Themecolor.white,
-                      filled: true,
-                      hintText: 'Email'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter an email';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                  ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+                // color: Themecolor.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(AssetPaths.qrlogos,height:height*0.4,width: width*0.8,),
+                    SizedBox(height: MediaQuery.of(context).size.height*0.02,),
                   const SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      fillColor: Themecolor.white,
-                      filled: true,
-                      hintText: 'Password'),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 32.0),
-                  Center(
-                    // child: ElevatedButton(
-                    //   onPressed: _createEmployee,
-                    //   child: const Text('Create'),
-                    // ),
-                    child: InkWell(
-                      onTap: _createEmployee,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          gradient:const LinearGradient(
-                            colors: [
-                              Themecolor.primary,
-                              Themecolor.primaryLight
-                            ],
-                            // colors:[Themecolor.primary,  Themecolor.primaryLight],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        fillColor: Themecolor.white,
+                        filled: true,
+                        hintText: 'Email'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an email';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        fillColor: Themecolor.white,
+                        filled: true,
+                        hintText: 'Password'),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 32.0),
+                    Center(
+                      // child: ElevatedButton(
+                      //   onPressed: _createEmployee,
+                      //   child: const Text('Create'),
+                      // ),
+                      child: InkWell(
+                        onTap: _createEmployee,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            gradient:const LinearGradient(
+                              colors: [
+                                Themecolor.primary,
+                                Themecolor.primaryLight
+                              ],
+
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          borderRadius: BorderRadius.circular(8),
+                          child:const Center(
+                              child: Text(
+                            'Login in',
+                            style: TextStyle(
+                                color: Colors.white, fontWeight: FontWeight.bold),
+                          )),
                         ),
-                        child:const Center(
-                            child: Text(
-                          'Login in',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

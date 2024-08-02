@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
+import 'package:qr_attendence/data/model/fetch_all_event_model.dart';
+import 'package:qr_attendence/provider/company/general_provider.dart';
 
 class PreviousEvent extends StatefulWidget {
   const PreviousEvent({super.key});
@@ -11,82 +14,118 @@ class PreviousEvent extends StatefulWidget {
 }
 
 class _PreviousEventState extends State<PreviousEvent> {
-  Future<>
-  List<Modelclass> listOfCurrentEvent = [
-    Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),
-    Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),
-    Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),
-    Modelclass('Coding Mentor', 'ItPark', '17/23/12', '4:03', '5:45'),
-  ];
+  Future<List<Event>>? fetchPreviousFilteredEvents;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPreviousFilteredEvents = _fetchAndFilterEvents();
+  }
+
+  Future<List<Event>> _fetchAndFilterEvents() async {
+    try {
+      // Fetch all events
+      final fetchAllEventModel = await GeneralProvider().FetchAllEvents(context);
+
+      // Filter events
+      final filteredEvents = filterPreviousEvents(fetchAllEventModel);
+
+      return filteredEvents;
+    } catch (e) {
+      // Handle exceptions
+      if (kDebugMode) print("Error: Fetching and filtering events: ${e.toString()}");
+      return [];
+    }
+  }
+
+  List<Event> filterPreviousEvents(FetchAllEventModel fetchAllEventModel) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day); // Midnight of today
+    return fetchAllEventModel.events?.where((event) {
+      return event.date != null && event.date!.isBefore(today);
+    }).toList() ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-       decoration:  BoxDecoration(
-        gradient: AppConstantsWidgetStyle.kgradientScreen
+      decoration: BoxDecoration(
+        gradient: AppConstantsWidgetStyle.kgradientScreen,
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back,
-                color: Themecolor.white,
-              )),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Themecolor.white,
+            ),
+          ),
           title: Text(
             'Previous Event',
             style: TextStyle(
-                fontSize: 18,
-                color: Themecolor.white,
-                fontWeight: FontWeight.bold),
+              fontSize: 18,
+              color: Themecolor.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        body: Container(
-          margin: EdgeInsets.only(
-            top: 50,
-          ),
-          padding: EdgeInsets.only(top: 20),
-          decoration: BoxDecoration(
-              color: Themecolor.whitehalf,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-          child: ListView.builder(
-            itemCount: listOfCurrentEvent.length,
-            itemBuilder: (BuildContext context, index) {
-              final event = listOfCurrentEvent[index];
-              return CurrentEvents(
-                eventname: event.eventname,
-                location: event.location,
-                date: event.date,
-                starttime: event.starttime,
-                endtime: event.endtime,
+        body: FutureBuilder<List<Event>>(
+          future: fetchPreviousFilteredEvents,
+          builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            },
-          ),
+            }
+
+            if (snapshot.data == null || snapshot.data!.isEmpty) {
+              return Center(
+                child: Text('No data available'),
+              );
+            }
+
+            final filteredEvents = snapshot.data!;
+            return Container(
+              margin: EdgeInsets.only(
+                top: 50,
+              ),
+              padding: EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                color: Themecolor.whitehalf,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: ListView.builder(
+                itemCount: filteredEvents.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final event = filteredEvents[index];
+                  return CurrentEvents(
+                    eventname: event.eventName,
+                    location: event.eventVenue,
+                    date: event.date,
+                    starttime: event.startTime ?? "",
+                    endtime: event.endTime ?? '',
+                  );
+                },
+              ),
+            );
+          },
         ),
-   ),
+      ),
     );
   }
-}
-
-class Modelclass {
-  final String? eventname;
-  final String? location;
-  final String? date;
-  final String? starttime;
-  final String? endtime;
-
-  Modelclass(
-      this.eventname, this.location, this.date, this.starttime, this.endtime);
 }
 
 class CurrentEvents extends StatelessWidget {
   final String? eventname;
   final String? location;
-  final String? date;
+  final DateTime? date;
   final String? starttime;
   final String? endtime;
 
@@ -106,24 +145,17 @@ class CurrentEvents extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
         gradient: AppConstantsWidgetStyle.kgradientScreen,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          // gradient: LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [
-          //     Themecolor.primary,
-          //     Colors.white,
-          //   ],
-          // ),
-          color: Themecolor.whitehalf),
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        color: Themecolor.whitehalf,
+      ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +190,7 @@ class CurrentEvents extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Date: ',
                       style: TextStyle(
                         fontSize: 12,
@@ -167,11 +199,13 @@ class CurrentEvents extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: date ?? '',
-                      style: TextStyle(
+                      text: date != null
+                          ? '${date!.toLocal().toString().split(' ')[0]}'
+                          : 'N/A',
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: Themecolor.white, // Example color for date
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -182,7 +216,7 @@ class CurrentEvents extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Start Time: ',
                       style: TextStyle(
                         fontSize: 12,
@@ -192,10 +226,10 @@ class CurrentEvents extends StatelessWidget {
                     ),
                     TextSpan(
                       text: starttime ?? '',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: Themecolor.white, // Example color for start time
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -206,7 +240,7 @@ class CurrentEvents extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'End Time: ',
                       style: TextStyle(
                         fontSize: 12,
@@ -216,10 +250,10 @@ class CurrentEvents extends StatelessWidget {
                     ),
                     TextSpan(
                       text: endtime ?? '',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: Themecolor.white, // Example color for end time
+                        color: Colors.white,
                       ),
                     ),
                   ],

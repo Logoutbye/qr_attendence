@@ -35,19 +35,27 @@ class AllLength {
 class Data {
     int? event;
     int? employee;
+    int? currentEvent;
+    int? previousEvent;
 
     Data({
         this.event,
         this.employee,
+        this.currentEvent,
+        this.previousEvent,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         event: json["event"],
         employee: json["employee"],
+        currentEvent: json["currentEvent"],
+        previousEvent: json["previousEvent"],
     );
 
     Map<String, dynamic> toJson() => {
         "event": event,
         "employee": employee,
+        "currentEvent": currentEvent,
+        "previousEvent": previousEvent,
     };
 }

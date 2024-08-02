@@ -4,6 +4,7 @@ import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
 import 'package:qr_attendence/provider/company/create_event_provider.dart';
+import 'package:qr_attendence/view/screens/Host/generate_qr_code.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -64,7 +65,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: height * 0.55,
+                    height: height * 0.65,
                     width: double.infinity,
                     decoration: ShapeDecoration(
                         color: Themecolor.white,
@@ -217,10 +218,24 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   
                   SizedBox(height: 20),
                   InkWell(
-                    onTap: (){
-                       eventProvider.isLoading
-                        ? CircularProgressIndicator()
-                        :  eventProvider.saveEvent(context);
+                    onTap: () async {
+                         if (eventProvider.formKey.currentState!.validate()) {
+                        eventProvider.saveEvent(context);
+                        // if (!eventProvider.isLoading) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QrCodeScreen(
+                                data:
+                                    'Event: ${eventProvider.eventNameController.text}, Venue: ${eventProvider.eventVenueController.text}, Date: ${eventProvider.eventDate.toString().split(' ')[0]}, Start Time: ${eventProvider.startTime!.format(context)}, End Time: ${eventProvider.endTime!.format(context)}',
+                              ),
+                            ),
+                          );
+                        }
+                      // }
+                      //  eventProvider.isLoading
+                      //   ? CircularProgressIndicator()
+                      //   :  eventProvider.saveEvent(context);
                     },
                     child: Container(
                       width: double.infinity,

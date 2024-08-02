@@ -88,7 +88,7 @@ class EventProvider with ChangeNotifier {
         if (success == true) {
           Utils.toastMessage(msg);
           print("::: the msg is: $msg");
-          Navigator.pushReplacementNamed(context, RoutesName.hostDashboard);
+          // Navigator.pushReplacementNamed(context, RoutesName.hostDashboard);
         } else {
           Utils.toastMessage(msg);
         }
