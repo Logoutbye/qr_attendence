@@ -7,7 +7,6 @@ import 'package:qr_attendence/provider/Signin_provider.dart';
 import 'package:qr_attendence/provider/company/create_event_provider.dart';
 import 'package:qr_attendence/provider/company/general_provider.dart';
 import 'package:qr_attendence/provider/create_people_provider.dart';
-import 'package:qr_attendence/provider/date_provider.dart';
 import 'package:qr_attendence/provider/signup_provider.dart';
 import 'package:qr_attendence/provider/theme_provider.dart';
 
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             initialRoute: RoutesName.splashScreen,
             onGenerateRoute: Routes.generateRoute,
-            // home: DashBoardHost(),
+            // home: Parent(),
           );
         },
       ),
