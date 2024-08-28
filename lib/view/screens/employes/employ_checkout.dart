@@ -191,12 +191,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qr_attendence/config/theme/theme.dart';
 import 'package:qr_attendence/core/components/app_constant_widget_style.dart';
+import 'package:qr_attendence/provider/checkin_provider.dart';
 
 class CheckInCheckOutScreen extends StatefulWidget {
-  final String name;
-  final String code;
+  
+ 
 
- const CheckInCheckOutScreen( this.name,  this.code);
+ const CheckInCheckOutScreen(   );
 
   @override
   _CheckInCheckOutScreenState createState() => _CheckInCheckOutScreenState();
@@ -218,28 +219,35 @@ class _CheckInCheckOutScreenState extends State<CheckInCheckOutScreen> {
     });
   }
 
-  void _checkOut() {
+  void _checkOut()async {
     timer.cancel();
     setState(() {});
+    final totaltime='${elapsedTime.inHours}:${elapsedTime.inMinutes.remainder(60)}:${elapsedTime.inSeconds.remainder(60)}';
+    Map<String,dynamic> data={
+    "employeeId": "66c9bc1cbdaef5ea272398c5",
+    "checkOutTime": totaltime
+  };
+   await CheckinProvider().checkOut(context,data);
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Total Time"),
-          content: Text(
-              "You have been checked in for ${elapsedTime.inHours}:${elapsedTime.inMinutes.remainder(60)}:${elapsedTime.inSeconds.remainder(60)}"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            )
-          ],
-        );
-      },
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return AlertDialog(
+    //       title: Text("Total Time"),
+    //       content: Text(
+    //           "You have been checked in for ${elapsedTime.inHours}:${elapsedTime.inMinutes.remainder(60)}:${elapsedTime.inSeconds.remainder(60)}"),
+    //       actions: [
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text("OK"),
+    //         )
+    //       ],
+    //     );
+    //   },
+    // );
+  
   }
 
   @override
@@ -338,6 +346,8 @@ class _CheckInCheckOutScreenState extends State<CheckInCheckOutScreen> {
       ),
     );
   }
+
+
 }
 
 class ClockPainter extends CustomPainter {

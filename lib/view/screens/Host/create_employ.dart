@@ -17,32 +17,30 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isObscure = true;
 
-  void _createEmployee()async {
+  void _createEmployee() async {
     Utils.dismissKeyboard(context);
-  
-      final username = _usernameController.text;
-      final email = _emailController.text;
-      final password = _passwordController.text;
-      Map<String, dynamic> data = {
-        "username": username,
-        'email': email,
-        'password': password
-      };
-      if(username.isEmpty){
-        Utils.snackBar('please enter a username ', context);
-      }else if(email.isEmpty){
-        Utils.snackBar('please enter a email', context);
-      }else if(password.isEmpty){
-        Utils.snackBar('please enter a password', context);
-      }else{
-        await CreateEmployProvider().CreateEmploy(data, context);
-      }
-      // Perform the create employee action here
-      // You can access the input values using _usernameController.text, _emailController.text, and _passwordController.text
 
-      
-    
+    final username = _usernameController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    Map<String, dynamic> data = {
+      "username": username,
+      'email': email,
+      'password': password
+    };
+    if (username.isEmpty) {
+      Utils.snackBar('please enter a username ', context);
+    } else if (email.isEmpty) {
+      Utils.snackBar('please enter a email', context);
+    } else if (password.isEmpty) {
+      Utils.snackBar('please enter a password', context);
+    } else {
+      await CreateEmployProvider().CreateEmploy(data, context);
+    }
+    // Perform the create employee action here
+    // You can access the input values using _usernameController.text, _emailController.text, and _passwordController.text
   }
 
   @override
@@ -55,8 +53,8 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height=MediaQuery.of(context).size.height;
-        final width=MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
       decoration:
@@ -83,7 +81,8 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
             decoration: BoxDecoration(
                 // color: Themecolor.white,
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -91,16 +90,20 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(AssetPaths.qrlogos,height:height*0.4,width: width*0.8,),
-                    SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                    Image.asset(
+                      AssetPaths.qrlogos,
+                      height: height * 0.4,
+                      width: width * 0.8,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
                     TextFormField(
-                      
-                      
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                        fillColor: Themecolor.white,
-                        filled: true,
-                        hintText: 'Username'),
+                          fillColor: Themecolor.white,
+                          filled: true,
+                          hintText: 'Username'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a username';
@@ -112,9 +115,9 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
-                        fillColor: Themecolor.white,
-                        filled: true,
-                        hintText: 'Email'),
+                          fillColor: Themecolor.white,
+                          filled: true,
+                          hintText: 'Email'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter an email';
@@ -128,11 +131,25 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(
-                        fillColor: Themecolor.white,
-                        filled: true,
-                        hintText: 'Password'),
                       obscureText: true,
+                      decoration: InputDecoration(
+                          fillColor: Themecolor.white,
+                          filled: true,
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              !isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Themecolor.black,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                          )),
+                      
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a password';
@@ -167,7 +184,8 @@ class _CreateEmployeeScreenState extends State<CreateEmployeeScreen> {
                               child: Text(
                             'Create Employ',
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           )),
                         ),
                       ),

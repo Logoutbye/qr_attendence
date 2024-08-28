@@ -227,7 +227,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             MaterialPageRoute(
                               builder: (context) => QrCodeScreen(
                                 data:
-                                    'Event: ${eventProvider.eventNameController.text}, Venue: ${eventProvider.eventVenueController.text}, Date: ${eventProvider.eventDate.toString().split(' ')[0]}, Start Time: ${eventProvider.startTime!.format(context)}, End Time: ${eventProvider.endTime!.format(context)}',
+                                    'Event: ${eventProvider.eventNameController.text}, Venue: ${eventProvider.eventVenueController.text}, Date: ${eventProvider.eventDate.toString().split(' ')[0]}, Start Time: ${eventProvider.startTime?.format(context)}, End Time: ${eventProvider.endTime?.format(context)}',
                               ),
                             ),
                           );

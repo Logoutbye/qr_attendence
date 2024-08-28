@@ -32,13 +32,19 @@ class SessionHandlingViewModel {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     sp.remove('token');
   }
+   Future removecompany() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove('token');
+    // notifyListeners();
+    return sp.clear();
+  }
 
   // for signed in rider
 
   Future<bool> saveEmploySignedInToken(String token) async {
     try {
       final SharedPreferences sp = await SharedPreferences.getInstance();
-      await sp.setString('saveDriverSignedInToken', token);
+      await sp.setString('token', token);
       return true; // Token saved successfully
     } catch (e) {
       print('Error saving token: $e');
@@ -48,16 +54,23 @@ class SessionHandlingViewModel {
 
   Future<String?> getemploySignedInToken() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    final String? token = sp.getString('saveDriverSignedInToken');
+    final String? token = sp.getString('token');
     if (kDebugMode) {
-      if (token != null) print(':::getDriverSignedInToken $token');
+      if (token != null) print(':::getemploySignedInToken $token');
     }
     return token;
   }
 
-  Future<void> removeDriverSignedInToken() async {
+  Future<void> removeEmploySignedInToken() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove('saveDriverSignedInToken');
+    sp.remove('token');
+  }
+
+    Future removeEmployee() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove('token');
+    // notifyListeners();
+    return sp.clear();
   }
   // for signed in user
 
@@ -66,10 +79,10 @@ class SessionHandlingViewModel {
  
 
  
-  Future<void> removePassengerSignedToken() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove('savePassengerSignedInToken');
-  }
+  // Future<void> removePassengerSignedToken() async {
+  //   final SharedPreferences sp = await SharedPreferences.getInstance();
+  //   sp.remove('savePassengerSignedInToken');
+  // }
 
   Future removeEverything() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();

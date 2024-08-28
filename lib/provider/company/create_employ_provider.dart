@@ -3,6 +3,7 @@ import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/core/components/session_handling.dart';
 import 'package:qr_attendence/core/utilis/utils.dart';
 import 'package:qr_attendence/data/repository/academy/company.dart';
+import 'package:qr_attendence/view/screens/Host/total_employes.dart';
 
 class CreateEmployProvider extends ChangeNotifier{
   bool _isLoading = false;
@@ -30,7 +31,13 @@ class CreateEmployProvider extends ChangeNotifier{
         if (success == true) {
           Utils.toastMessage(msg);
           print("::: the msg is: $msg");
-          Navigator.pushReplacementNamed(context, RoutesName.hostDashboard);
+         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EmployeeListScreen(showButton: false),
+                        ),
+                      );
         } else {
           Utils.toastMessage(msg);
         }

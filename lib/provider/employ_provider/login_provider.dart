@@ -21,11 +21,14 @@ class LoginEmployProvider extends ChangeNotifier{
       print("::: the print 11");
       // Assuming companysignup returns a Map<String, dynamic>
       final response = await Employ().loginEmploy(data);
-      print("::: the response of api is: $response");
+   
 
       if (response['status'] == 200) {
         final msg = response['msg'];
         final success = response['success'];
+        final token=response['token'];
+        print(":::: the token of enploy is :$token");
+     await SessionHandlingViewModel().saveEmploySignedInToken(token);
 
         if (success == true) {
           Utils.toastMessage(msg);

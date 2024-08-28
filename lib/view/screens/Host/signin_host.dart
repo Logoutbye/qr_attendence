@@ -34,6 +34,9 @@ class _SignInHostState extends State<SignInHost> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              leading: IconButton(onPressed: (){
+                Navigator.pop(context);
+              }, icon: Icon(Icons.arrow_back,color: Themecolor.white,)),
               title: Text(
                 'signin',
                 style: TextStyle(
@@ -54,7 +57,11 @@ class _SignInHostState extends State<SignInHost> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(AssetPaths.qrlogos,width: width*0.9,height: height*0.4,),
+                    Image.asset(
+                      AssetPaths.qrlogos,
+                      width: width * 0.9,
+                      height: height * 0.4,
+                    ),
                     SizedBox(
                       height: height * 0.07,
                     ),
@@ -128,7 +135,7 @@ class _SignInHostState extends State<SignInHost> {
                     SizedBox(height: height * 0.02),
                     InkWell(
                       onTap: () async {
-                        // Navigator.pushReplacementNamed(context, RoutesName.hostDashboard);
+                        if (provider.isLoading) return; // Prevent multiple taps
                         final email = emailController.text;
                         final password = passwordController.text;
                         Map<String, dynamic> data = {
@@ -136,7 +143,7 @@ class _SignInHostState extends State<SignInHost> {
                           'password': password
                         };
                         if (email.isEmpty) {
-                        Utils.snackBar('Please enter Email', context);
+                          Utils.snackBar('Please enter Email', context);
                         } else if (password.isEmpty) {
                           Utils.snackBar('Please enter password', context);
                         } else {
@@ -157,12 +164,22 @@ class _SignInHostState extends State<SignInHost> {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Center(
-                            child: Text(
-                          'Sign in',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Display the button text or the spinner based on loading state
+                            provider.isLoading
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    'Sign In',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: height * 0.02),
@@ -182,7 +199,7 @@ class _SignInHostState extends State<SignInHost> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 // Define your onTap function here
-                                Navigator.pushReplacementNamed(
+                                Navigator.pushNamed(
                                     context, RoutesName.signUp);
                               },
                           ),

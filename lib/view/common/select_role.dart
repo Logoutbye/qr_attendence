@@ -47,7 +47,7 @@ class _SelectRoleState extends State<SelectRole> {
                 Center(
                   child: InkWell(
                     onTap: (){
-                      Navigator.pushReplacementNamed(context,RoutesName.signin);
+                      Navigator.pushNamed(context,RoutesName.signin);
                     },
                     child: Container(
                       width: width * 0.8,
@@ -76,7 +76,7 @@ class _SelectRoleState extends State<SelectRole> {
                 Center(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushReplacementNamed(
+                      Navigator.pushNamed(
                           context, RoutesName.loginEmploy);
                     },
                     child: Container(

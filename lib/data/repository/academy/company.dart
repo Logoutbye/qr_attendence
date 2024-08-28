@@ -149,6 +149,18 @@ class Company {
       rethrow;
     }
   }
+
+
+  Future<dynamic> addEmployetoEvcent(Map<String, dynamic> data, var token) async {
+    try {
+      dynamic response =
+          await apiServices.fetchPostApi(Applinks.addpeopletoEvent, data, token);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<dynamic> logout( var token) async {
     try {
       dynamic response =
@@ -171,4 +183,40 @@ class Company {
       rethrow;
     }
   }
+   Future<dynamic> fetchattendenceBYDate(var data, var token) async {
+    try {
+      dynamic response =
+          await apiServices.fetchPostApi(Applinks.fetchallAttendenseByDate,data, token);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+      Future<dynamic> FetchAllCompanyDetails() async {
+    try {
+      final token = await SessionHandlingViewModel().getCompanyToken();
+
+      dynamic response =
+          await apiServices.fetchGetApi(Applinks.fetchAllCompanyDetails, token);
+          
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+
+  Future<dynamic> fetchattendenceOfEventForcompany(var data, var token) async {
+    try {
+      dynamic response =
+          await apiServices.fetchPostApi(Applinks.fetcheventAttendenceForCompany,data, token);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+ 
 }

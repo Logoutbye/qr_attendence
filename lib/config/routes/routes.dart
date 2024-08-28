@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_attendence/config/routes/routes_name.dart';
 import 'package:qr_attendence/data/model/login_employ_model.dart';
 import 'package:qr_attendence/view/common/select_role.dart';
+import 'package:qr_attendence/view/screens/Host/company_attendies.dart';
 import 'package:qr_attendence/view/screens/Host/create_Event.dart';
 import 'package:qr_attendence/view/screens/Host/create_employ.dart';
 import 'package:qr_attendence/view/screens/Host/create_people.dart';
@@ -14,6 +15,7 @@ import 'package:qr_attendence/view/screens/Host/total_employes.dart';
 import 'package:qr_attendence/view/screens/employes/employ_checkout.dart';
 import 'package:qr_attendence/view/screens/employes/employ_signin.dart';
 import 'package:qr_attendence/view/screens/employes/employes_checkin.dart';
+import 'package:qr_attendence/view/screens/employes/fetch_all_employe_event.dart';
 import 'package:qr_attendence/view/splash_screen.dart';
 
 import 'slide_transition_page.dart';
@@ -31,8 +33,8 @@ class Routes {
         return SlideTransitionPage(page: SignInHost());
         case RoutesName.createEvent:
         return SlideTransitionPage(page: CreateEventScreen());
-        case RoutesName.createPeople:
-        return SlideTransitionPage(page: PeopleScreen());
+        // case RoutesName.createPeople:
+        // return SlideTransitionPage(page: PeopleScreen());
         case RoutesName.employCheckin:
         return SlideTransitionPage(page: Employescheckin());
         case RoutesName.hostDashboard:
@@ -47,6 +49,8 @@ class Routes {
         return SlideTransitionPage(page:LoginEmployeeScreen());
         case RoutesName.totalEmploy:
         return SlideTransitionPage(page:EmployeeListScreen());
+        case RoutesName.fetchalleventForEmploye:
+        return SlideTransitionPage(page:FetchAllEventForEmploye());
         //  case RoutesName.checkout:
         // return SlideTransitionPage(page: CheckInCheckOutScreen());
         

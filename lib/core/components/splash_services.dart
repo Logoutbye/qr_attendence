@@ -24,6 +24,7 @@ class SplashServices {
      
       final signedIncompanyToken = await getCompanyToken();
       final signedInEmployToken = await getEmploySignedInToken();
+      print(":: the token of company is :${signedIncompanyToken}");
 
       if (signedIncompanyToken != null) {
         // If signed in,

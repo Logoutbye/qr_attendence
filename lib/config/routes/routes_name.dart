@@ -15,6 +15,8 @@ class RoutesName {
               static const String totalEmploy ='total_employes.dart';
               /////////////////////////////employ//////////////////////
              static const String loginEmploy ='employ_signin.dart';
+             static const String fetchalleventForEmploye='fetch_all_employe.dart';
+               
 
               ///// visiter
                 // static const String checkout  ='employ_checkout.dart';
